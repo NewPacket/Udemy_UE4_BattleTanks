@@ -16,21 +16,22 @@ class BATTLETANKS_API UTankAimingComponent : public UActorComponent
 
 public:	
 	// Sets default values for this component's properties
-	UTankAimingComponent();
+	UTankAimingComponent				();
 
-	void SetBarrelReference(UTankBarrel * barrelToSet);
+	void SetBarrelReference				(UTankBarrel * barrelToSet);
 
 protected:
 	// Called when the game starts
-	virtual void BeginPlay() override;
+	virtual void BeginPlay				() override;
 
 public:	
 	// Called every frame
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-	void AimAt(FVector& hitLocation, float launchSpeed);
+	virtual void TickComponent			(float DeltaTime, ELevelTick TickType,
+										FActorComponentTickFunction* ThisTickFunction) override;
+			void AimAt					(FVector& hitLocation, float launchSpeed);
 private:
 
 	UTankBarrel * barrel = nullptr;
 
-	void MoveBarrelTowardsDirection(FVector& aimDirection);
+	void MoveBarrelTowardsDirection		(FVector& aimDirection);
 };

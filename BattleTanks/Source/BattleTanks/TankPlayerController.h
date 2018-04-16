@@ -1,11 +1,11 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
-#include "Tank.h"
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
 #include "TankPlayerController.generated.h"
 
+class ATank;
 /**
  * 
  */
@@ -15,17 +15,17 @@ class BATTLETANKS_API ATankPlayerController : public APlayerController
 	GENERATED_BODY()
 
 public:
-	ATank * GetControlledTank() const;
+	ATank * GetControlledTank			() const;
 	
-	virtual void BeginPlay() override;
+	virtual void BeginPlay				() override;
 
-	virtual void Tick(float) override;
+	virtual void Tick					(float) override;
 
-	void AimTowardsCrossHair();
+	void AimTowardsCrossHair			();
 
-	bool GetSightRayHitLocation(FVector&) const;
-	bool GetLookDirection(const FVector2D & crossHair2DPosition, FVector & lookDirection) const;
-	bool GetLookVectorHitLocation(FVector & lookDirection, FVector & hitLocation) const;
+	bool GetSightRayHitLocation			(FVector&) const;
+	bool GetLookDirection				(const FVector2D & crossHair2DPosition, FVector & lookDirection) const;
+	bool GetLookVectorHitLocation		(FVector & lookDirection, FVector & hitLocation) const;
 
 
 private:
