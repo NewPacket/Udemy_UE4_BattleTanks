@@ -46,7 +46,6 @@ void ATankPlayerController::AimTowardsCrossHair()
 	{
 		GetControlledTank()->AimAt(hitLocation);
 	}
-	
 }
 
 bool ATankPlayerController::GetSightRayHitLocation(FVector& OUT hitLocation) const
@@ -55,11 +54,12 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector& OUT hitLocation) con
 	int32 viewportSizeX, viewportSizeY;
 	GetViewportSize(viewportSizeX, viewportSizeY);
 	if (!viewportSizeX) { return false; }
-
 	const FVector2D crossHair2DPosition{viewportSizeX * crossHairX, viewportSizeY * crossHairY};
 	FVector lookDirection;
 	if (GetLookDirection(crossHair2DPosition, lookDirection))
+	{
 		return GetLookVectorHitLocation(lookDirection, hitLocation);
+	}
 	return false;
 }
 

@@ -6,6 +6,7 @@
 #include "Components/ActorComponent.h"
 #include "TankAimingComponent.generated.h"
 
+class UTankTurret;
 class UTankBarrel;
 
 // Hold barrel's properties and Elevate
@@ -19,7 +20,7 @@ public:
 	UTankAimingComponent				();
 
 	void SetBarrelReference				(UTankBarrel * barrelToSet);
-
+	void SetTurretReference				(UTankTurret * turretToSet);
 protected:
 	// Called when the game starts
 	virtual void BeginPlay				() override;
@@ -28,10 +29,14 @@ public:
 	// Called every frame
 	virtual void TickComponent			(float DeltaTime, ELevelTick TickType,
 										FActorComponentTickFunction* ThisTickFunction) override;
-			void AimAt					(FVector& hitLocation, float launchSpeed);
+			void AimAt					(FVector & hitLocation, float launchSpeed);
 private:
 
 	UTankBarrel * barrel = nullptr;
+	UTankTurret * turret = nullptr;
 
-	void MoveBarrelTowardsDirection		(FVector& aimDirection);
+	void MoveBarrelTowardsDirection		(FVector & aimDirection);
+
+	void MoveTurretTowardsDirection		(FVector & aimDirection);
+
 };
