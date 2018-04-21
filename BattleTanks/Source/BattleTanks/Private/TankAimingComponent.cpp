@@ -65,7 +65,6 @@ void UTankAimingComponent::AimAt(FVector& hitLocation, float launchSpeed)
 	{
 		auto aimDirection = launchVelocity.GetSafeNormal();
 		MoveBarrelTowardsDirection(aimDirection);
-		MoveTurretTowardsDirection(aimDirection);
 		UE_LOG(LogTemp, Warning, TEXT("%s need to aim at %s"),*GetOwner()->GetName(), *aimDirection.ToString())
 	}
 }
@@ -76,13 +75,6 @@ void UTankAimingComponent::MoveBarrelTowardsDirection(FVector& aimDirection)
 	auto aimAsRotation = aimDirection.Rotation();
 	auto deltaRotator  = aimAsRotation - barrelRotator;
 	barrel->Elevate(deltaRotator.Pitch);
-}
-
-void UTankAimingComponent::MoveTurretTowardsDirection(FVector& aimDirection)
-{
-	auto turretRotator = turret->GetForwardVector().Rotation();
-	auto aimAsRotation = aimDirection.Rotation();
-	auto deltaRotator = aimAsRotation - turretRotator;
 	turret->Rotate(deltaRotator.Yaw);
 }
 
