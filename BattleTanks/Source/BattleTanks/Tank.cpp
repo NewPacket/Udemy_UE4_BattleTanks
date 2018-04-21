@@ -2,8 +2,11 @@
 
 #include "Tank.h"
 #include "TankBarrel.h"
+#include "Projectile.h"
 #include "TankAimingComponent.h"
 #include "GameFramework/Actor.h"
+#include "Engine/World.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 ATank::ATank()
@@ -11,11 +14,13 @@ ATank::ATank()
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
 	tankAimingComponent = CreateDefaultSubobject<UTankAimingComponent>(FName("Aiming component"));
+
 }
 
 void ATank::SetBarrelReference(UTankBarrel * barrelToSet)
 {
 	tankAimingComponent->SetBarrelReference(barrelToSet);
+	barrel = barrelToSet;
 }
 
 void ATank::SetTurretReference(UTankTurret * turretToSet)
@@ -38,4 +43,23 @@ void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 void ATank::AimAt(FVector& hitLocation)
 {
 	tankAimingComponent->AimAt(hitLocation, launchSpeed);
+}
+
+void ATank::Fire()
+{
+	if (!barrel) { return; }
+	bool isReloaded = FPlatformTime::Seconds() - lastFireTime > fireRate;
+
+	if (isReloaded)
+	{
+		lastFireTime = FPlatformTime::Seconds();
+		FActorSpawnParameters spawnParams;
+		auto projectile = GetWorld()->SpawnActor<AProjectile>(
+			projectileBlueprint,
+			barrel->GetSocketLocation(FName("Projectile")),
+			barrel->GetSocketRotation(FName("Projectile")),
+			spawnParams);
+
+		projectile->LaunchProjectile(launchSpeed);
+	}
 }
