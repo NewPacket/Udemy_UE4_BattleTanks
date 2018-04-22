@@ -27,6 +27,7 @@ void ATankAIController::Tick(float deltaSeconds)
 	Super::Tick(deltaSeconds);
 	const auto playerTank = GetPlayerTank();
 	if (!playerTank) { return; }
+	MoveToActor(playerTank, acceptanceRadius);
 	auto actorLocation = playerTank->GetActorLocation();
 	GetControlledTank()->AimAt(actorLocation);
 	GetControlledTank()->Fire();

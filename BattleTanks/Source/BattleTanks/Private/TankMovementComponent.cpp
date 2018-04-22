@@ -3,6 +3,13 @@
 #include "TankMovementComponent.h"
 #include "TankTrack.h"
 
+void UTankMovementComponent::Initialize(UTankTrack* leftTrackToSet, UTankTrack* rightTrackToSet)
+{
+	if (!leftTrackToSet || !rightTrackToSet) { return; }
+	leftTrack = leftTrackToSet;
+	rightTrack = rightTrackToSet;
+}
+
 void UTankMovementComponent::IntendMoveForward(float throttle)
 {
 	//Send throttle to l and r tracks of tank
@@ -10,11 +17,22 @@ void UTankMovementComponent::IntendMoveForward(float throttle)
 	rightTrack->SetThrottle(throttle);
 }
 
-void UTankMovementComponent::Initialize(UTankTrack* leftTrackToSet, UTankTrack* rightTrackToSet)
+void UTankMovementComponent::IntendTurn(float throttle)
 {
-	if (!leftTrackToSet || !rightTrackToSet) { return; }
-	leftTrack = leftTrackToSet;
-	rightTrack = rightTrackToSet;
+	//Send throttle to l and r tracks of tank
+	leftTrack->SetThrottle(-throttle);
+	rightTrack->SetThrottle(throttle);
+}
+
+void UTankMovementComponent::RequestDirectMove(const FVector& MoveVelocity, bool bForceMaxSpeed)
+{
+	auto AIIntededDirection = MoveVelocity.GetSafeNormal();
+	auto tankForward = GetOwner()->GetActorForwardVector();
+	auto forwardThrow = FVector::DotProduct(AIIntededDirection, tankForward);
+	auto angleThrow = FVector::CrossProduct(tankForward, AIIntededDirection);
+
+	IntendTurn(-angleThrow.Z);
+	IntendMoveForward(forwardThrow);
 }
 
 

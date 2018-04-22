@@ -24,6 +24,7 @@ private:
 	ATank* GetPlayerTank() const;
 	
 	virtual void Tick(float DeltaSeconds) override;
-	
-	
+
+
+	float acceptanceRadius = 30;
 };
