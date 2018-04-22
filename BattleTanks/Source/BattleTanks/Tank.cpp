@@ -7,6 +7,7 @@
 #include "GameFramework/Actor.h"
 #include "Engine/World.h"
 #include "Kismet/GameplayStatics.h"
+#include "TankMovementComponent.h"
 
 // Sets default values
 ATank::ATank()
@@ -14,6 +15,7 @@ ATank::ATank()
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
 	tankAimingComponent = CreateDefaultSubobject<UTankAimingComponent>(FName("Aiming component"));
+	tankMovementComponent = CreateDefaultSubobject<UTankMovementComponent>(FName("Tank Movement component"));
 
 }
 
@@ -59,7 +61,7 @@ void ATank::Fire()
 			barrel->GetSocketLocation(FName("Projectile")),
 			barrel->GetSocketRotation(FName("Projectile")),
 			spawnParams);
-
-		projectile->LaunchProjectile(launchSpeed);
+		if (projectile)
+			projectile->LaunchProjectile(launchSpeed);
 	}
 }

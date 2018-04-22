@@ -8,7 +8,9 @@
 
 class UTankTurret;
 class UTankBarrel;
+class UTankTrack;
 class UTankAimingComponent;
+class UTankMovementComponent;
 class AProjectile;
 
 UCLASS()
@@ -37,6 +39,9 @@ protected:
 	virtual void BeginPlay() override;
 
 	UTankAimingComponent* tankAimingComponent = nullptr;
+
+	UPROPERTY(BlueprintReadOnly)
+	UTankMovementComponent* tankMovementComponent = nullptr;
 
 	UPROPERTY(EditAnywhere, Category = "Firing")
 	float launchSpeed = 4000;
