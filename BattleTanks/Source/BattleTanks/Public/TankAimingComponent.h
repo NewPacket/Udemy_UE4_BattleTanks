@@ -6,6 +6,17 @@
 #include "Components/ActorComponent.h"
 #include "TankAimingComponent.generated.h"
 
+//
+UENUM()
+enum class EAimingState : uint8
+{
+	RELOADING = 0,
+	AIMING,
+	LOCKED
+};
+
+//Forward declarations for Aiming component
+
 class UTankTurret;
 class UTankBarrel;
 
@@ -19,6 +30,9 @@ public:
 	// Sets default values for this component's properties
 	UTankAimingComponent				();
 
+	UFUNCTION(BlueprintCallable, Category = "Setup")
+	void Initialize(UTankBarrel* barrelToSet, UTankTurret* turretToSet);
+
 	void SetBarrelReference				(UTankBarrel * barrelToSet);
 	void SetTurretReference				(UTankTurret * turretToSet);
 protected:
@@ -30,13 +44,15 @@ public:
 	virtual void TickComponent			(float DeltaTime, ELevelTick TickType,
 										FActorComponentTickFunction* ThisTickFunction) override;
 			void AimAt					(FVector & hitLocation, float launchSpeed);
-private:
 
+	UPROPERTY(BlueprintReadOnly)
+	EAimingState aimingState = EAimingState::RELOADING;
+
+	UTankBarrel * GetBarrel() const { return barrel; };
+
+private:
 	UTankBarrel * barrel = nullptr;
 	UTankTurret * turret = nullptr;
 
 	void MoveBarrelTowardsDirection		(FVector & aimDirection);
-
-	void MoveTurretTowardsDirection		(FVector & aimDirection);
-
 };

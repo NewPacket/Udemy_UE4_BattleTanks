@@ -19,17 +19,6 @@ ATank::ATank()
 
 }
 
-void ATank::SetBarrelReference(UTankBarrel * barrelToSet)
-{
-	tankAimingComponent->SetBarrelReference(barrelToSet);
-	barrel = barrelToSet;
-}
-
-void ATank::SetTurretReference(UTankTurret * turretToSet)
-{
-	tankAimingComponent->SetTurretReference(turretToSet);
-}
-
 // Called when the game starts or when spawned
 void ATank::BeginPlay()
 {
@@ -49,7 +38,10 @@ void ATank::AimAt(FVector& hitLocation)
 
 void ATank::Fire()
 {
+	auto barrel = tankAimingComponent->GetBarrel();
+
 	if (!barrel) { return; }
+
 	bool isReloaded = FPlatformTime::Seconds() - lastFireTime > fireRate;
 
 	if (isReloaded)

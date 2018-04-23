@@ -17,10 +17,8 @@ class BATTLETANKS_API UTankMovementComponent : public UNavMovementComponent
 	GENERATED_BODY()
 	
 public:
-	UFUNCTION(BlueprintCallable, Category = Setup)
+	UFUNCTION(BlueprintCallable, Category = "Setup")
 	void Initialize(UTankTrack* leftTrackToSet, UTankTrack* rightTrackToSet);
-
-
 
 	UFUNCTION(BlueprintCallable)
 	void IntendMoveForward(float throttle);
