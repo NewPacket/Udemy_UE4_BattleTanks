@@ -3,12 +3,20 @@
 #include "TankAIController.h"
 #include "Tank.h"
 #include <Engine/World.h>
+#include "TankAimingComponent.h"
 
 
 void ATankAIController::BeginPlay()
 {
 	Super::BeginPlay();
 }
+
+UTankAimingComponent* ATankAIController::GetControlledTankAimingComponent() const
+{
+	auto aimingComponent = GetControlledTank()->FindComponentByClass<UTankAimingComponent>();
+	return aimingComponent;
+}
+
 
 ATank* ATankAIController::GetControlledTank() const
 {
@@ -26,11 +34,11 @@ void ATankAIController::Tick(float deltaSeconds)
 {
 	Super::Tick(deltaSeconds);
 	const auto playerTank = GetPlayerTank();
-	if (!playerTank) { return; }
+	if (!ensure(playerTank)) { return; }
 	MoveToActor(playerTank, acceptanceRadius);
 	auto actorLocation = playerTank->GetActorLocation();
-	GetControlledTank()->AimAt(actorLocation);
-	GetControlledTank()->Fire();
+	GetControlledTankAimingComponent()->AimAt(actorLocation);
+	GetControlledTankAimingComponent()->Fire();
 }
 
 
