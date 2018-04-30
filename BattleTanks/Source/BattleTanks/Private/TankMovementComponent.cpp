@@ -6,6 +6,7 @@
 void UTankMovementComponent::Initialize(UTankTrack* leftTrackToSet, UTankTrack* rightTrackToSet)
 {
 	if (!leftTrackToSet || !rightTrackToSet) { return; }
+	UE_LOG(LogTemp, Warning, TEXT("Init Done"))
 	leftTrack = leftTrackToSet;
 	rightTrack = rightTrackToSet;
 }
@@ -13,6 +14,7 @@ void UTankMovementComponent::Initialize(UTankTrack* leftTrackToSet, UTankTrack* 
 void UTankMovementComponent::IntendMoveForward(float throttle)
 {
 	//Send throttle to l and r tracks of tank
+	UE_LOG(LogTemp,Warning,TEXT("Moving"))
 	leftTrack->SetThrottle(throttle);
 	rightTrack->SetThrottle(throttle);
 }
