@@ -16,23 +16,14 @@ void ATankPlayerController::BeginPlay()
 	FoundAimingComponent(aimingComponent);
 }
 
-ATank* ATankPlayerController::GetControlledTank() const
+UTankAimingComponent* ATankPlayerController::GetControlledTankAimingComponent() const
 {
 	if (!ensure(GetPawn()))
 	{
 		UE_LOG(LogTemp, Warning, TEXT("No pawn"))
-	}
-	return Cast<ATank>(GetPawn());
-}
-
-UTankAimingComponent* ATankPlayerController::GetControlledTankAimingComponent() const
-{
-	if (!ensure(GetControlledTank()))
-	{
-		UE_LOG(LogTemp, Warning, TEXT("No pawn"))
 		return nullptr;
 	}
-	auto aimingComponent = GetControlledTank()->FindComponentByClass<UTankAimingComponent>();
+	auto aimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
 	return aimingComponent;
 }
 
@@ -42,9 +33,9 @@ void ATankPlayerController::Tick(float deltaTime)
 	AimTowardsCrossHair();
 };
 
-void ATankPlayerController::AimTowardsCrossHair()
+void ATankPlayerController::AimTowardsCrossHair() const
 {
-	if (!ensure(GetControlledTank())) { return; }
+	if (!ensure(GetPawn())) { return; }
 
 	FVector hitLocation;
 	if (GetSightRayHitLocation(IN hitLocation))

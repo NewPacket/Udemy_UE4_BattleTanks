@@ -16,8 +16,6 @@ class BATTLETANKS_API ATankPlayerController : public APlayerController
 	GENERATED_BODY()
 
 public:
-	UFUNCTION(BlueprintCallable, Category = "Setup")
-	ATank * GetControlledTank			() const;
 
 	UFUNCTION(BlueprintImplementableEvent, Category = "Setup")
 	void FoundAimingComponent(UTankAimingComponent* aimingComponent);
@@ -28,7 +26,7 @@ public:
 
 	virtual void Tick					(float) override;
 
-	void AimTowardsCrossHair			();
+	void AimTowardsCrossHair			() const;
 
 	bool GetSightRayHitLocation			(FVector&) const;
 	bool GetLookDirection				(const FVector2D & crossHair2DPosition, FVector & lookDirection) const;

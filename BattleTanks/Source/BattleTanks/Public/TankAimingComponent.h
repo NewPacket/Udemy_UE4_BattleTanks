@@ -66,6 +66,8 @@ private:
 
 	float lastFireTime = 0.f;
 
+	bool isRotating = false;
+
 	void MoveBarrelTowardsDirection		(FVector & aimDirection);
 
 };
